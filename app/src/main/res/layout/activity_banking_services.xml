@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BankingServices">
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:src="@mipmap/lea_logo"
+        android:layout_centerHorizontal="true"/>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"><!-- Dashboard Options -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="@font/open_sans_bold"
+        android:text="Banking Services"
+        android:textStyle="bold" />
+    <!--services-->
+    <GridLayout
+        android:id="@+id/dashboardOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:rowCount="2"
+        android:columnCount="2"
+        android:layout_marginTop="16dp"
+        android:padding="2dp"
+        >
+
+        <!-- Group Loan Services -->
+
+        <!-- Community COntributions -->
+        <Button
+            android:id="@+id/btnLoanServices"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="#0CC133"
+            android:fontFamily="@font/open_sans"
+            android:text="Loan Services" />
+
+        <Button
+            android:id="@+id/btnCommunityEngagement"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="#0CC133"
+            android:fontFamily="@font/open_sans"
+            android:text="Community contributions" />
+
+        <!-- Agricultural Products -->
+
+
+    </GridLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

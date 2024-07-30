@@ -1,42 +1,43 @@
 package com.example.myecommerce;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.os.Handler;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class LoadingScreen extends AppCompatActivity {
 
-    private Button btnStart;
+    private ImageView loadingImage;
 
-
-
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loading_screen);
 
-        btnStart = findViewById(R.id.btnStart);
+        loadingImage = findViewById(R.id.loadingImage);
 
+        // Blinking animation
+        Animation blinkAnimation = new AlphaAnimation(0.0f, 1.0f);
+        blinkAnimation.setDuration(1000); // You can adjust the blink speed here
+        blinkAnimation.setRepeatMode(Animation.REVERSE);
+        blinkAnimation.setRepeatCount(Animation.INFINITE);
+        loadingImage.startAnimation(blinkAnimation);
 
-        btnStart.setOnClickListener(new View.OnClickListener() {
+        // Delay of 4 seconds
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onClick(View v) {
-                Intent startIntent = new Intent(LoadingScreen.this, Login.class);
-                startActivity(startIntent);
+            public void run() {
+                // Stop animation
+                loadingImage.clearAnimation();
+                // Start Login Activity
+                Intent intent = new Intent(LoadingScreen.this, Login.class);
+                startActivity(intent);
                 finish();
             }
-        });
+        }, 4000); // 4000 milliseconds = 4 seconds
     }
-
-
-
 }

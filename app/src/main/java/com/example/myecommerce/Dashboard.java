@@ -2,7 +2,6 @@ package com.example.myecommerce;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,15 +30,13 @@ public class Dashboard extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private TextView dashboardGreetings;
     private ImageButton btnProfile, btnLogout;
-    private Button btnLoanServices, btnCommunityEngagement, btnAgricProducts;
+    private Button btnBanking, btnEcommerce;
 
     // RecyclerView and Adapter for articles
     private RecyclerView recyclerViewArticles;
     private ArticleAdapter articleAdapter;
     private ArrayList<Article> articleList;
     private DatabaseReference databaseArticles;
-
-   // private LoanViewModel loanViewModel;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -50,9 +47,8 @@ public class Dashboard extends AppCompatActivity {
         dashboardGreetings = findViewById(R.id.dashboardGreetings);
         btnProfile = findViewById(R.id.btnProfile);
         btnLogout = findViewById(R.id.btnLogout);
-        btnLoanServices = findViewById(R.id.btnLoanServices);
-        btnCommunityEngagement = findViewById(R.id.btnCommunityEngagement);
-        btnAgricProducts = findViewById(R.id.btnAgricProducts);
+        btnBanking = findViewById(R.id.btnBanking);
+        btnEcommerce = findViewById(R.id.btnEcommerce);
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -66,9 +62,6 @@ public class Dashboard extends AppCompatActivity {
 
         databaseArticles = FirebaseDatabase.getInstance().getReference("articles");
         fetchArticles();
-
-        // Initialize the ViewModel
-        //loanViewModel = new ViewModelProvider(this).get(LoanViewModel.class);
 
         // Display user name on dashboard
         loadUserName();
@@ -89,31 +82,21 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
-        btnLoanServices.setOnClickListener(new View.OnClickListener() {
+        btnBanking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent loanServices = new Intent(Dashboard.this, LoanServices.class);
-                startActivity(loanServices);
+                Intent bankingServices = new Intent(Dashboard.this, BankingServices.class);
+                startActivity(bankingServices);
             }
         });
 
-        btnCommunityEngagement.setOnClickListener(new View.OnClickListener() {
+        btnEcommerce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent community = new Intent(Dashboard.this, CommunityContributions.class);
-                startActivity(community);
+                Intent ecommerceServices = new Intent(Dashboard.this, ecommerceServices.class);
+                startActivity(ecommerceServices);
             }
         });
-
-        btnAgricProducts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent agricProducts = new Intent(Dashboard.this, ProductList.class);
-                startActivity(agricProducts);
-            }
-        });
-
-       // handleNotificationIntent();
     }
 
     private void logoutUser() {
@@ -168,10 +151,4 @@ public class Dashboard extends AppCompatActivity {
             }
         });
     }
-
-//    private void handleNotificationIntent() {
-//        // Handle notification clicks and provide user feedback
-//        // This method can be expanded to handle different types of notifications
-//        Toast.makeText(this, "Notification Clicked", Toast.LENGTH_SHORT).show();
-//    }
 }

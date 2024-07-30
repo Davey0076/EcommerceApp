@@ -38,7 +38,16 @@ public class ProductList extends AppCompatActivity {
         recyclerViewProducts.setHasFixedSize(true);
 
         productList = new ArrayList<>();
-        productAdapter = new ProductAdapter(this, productList);
+        productAdapter = new ProductAdapter(this, productList, new ProductAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Product product) {
+                Intent intent = new Intent(ProductList.this, ProductCheckout.class);
+                intent.putExtra("productName", product.getName());
+                intent.putExtra("productPrice", product.getPrice());
+                intent.putExtra("productImage", product.getImageUrl());
+                startActivity(intent);
+            }
+        });
         recyclerViewProducts.setAdapter(productAdapter);
 
         databaseProducts = FirebaseDatabase.getInstance().getReference("products");

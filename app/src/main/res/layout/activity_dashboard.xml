@@ -14,13 +14,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/wrapperProfile"
     android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/welcome"
-        android:id="@+id/dashboardGreetings"
-        android:textSize="20sp"
-        android:fontFamily="@font/open_sans_bold"/>
+
     <!--options available -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,39 +22,65 @@
         android:gravity="end"
         android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/btnLogout"
+        <!--  Logout section-->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/logout"
-            android:src="@drawable/ic_logout"
-            android:layout_marginRight="12dp"
-            android:layout_marginBottom="12dp"/>
+            android:orientation="vertical"
+            android:padding="8dp">
 
-<!--        <ImageButton-->
-<!--            android:id="@+id/btnNotification"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="end"-->
-<!--            android:background="@android:color/transparent"-->
-<!--            android:contentDescription="@string/profile"-->
-<!--            android:src="@drawable/ic_notification"-->
-<!--            android:layout_marginRight="12dp"-->
-<!--            android:layout_marginBottom="12dp"/>-->
+            <ImageButton
+                android:id="@+id/btnLogout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/logout"
+                android:src="@drawable/ic_logout" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Log Out"
+                android:fontFamily="@font/open_sans"
+                android:textSize="10sp"/>
 
-        <ImageButton
-            android:id="@+id/btnProfile"
+        </LinearLayout>
+
+
+        <!--Profile section-->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/profile"
-            android:src="@drawable/ic_profile"
-            android:layout_marginRight="12dp"
-            android:layout_marginBottom="12dp"/>
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:layout_marginRight="8dp"
+            >
+            <ImageButton
+                android:id="@+id/btnProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/profile"
+                android:src="@drawable/ic_profile"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profile"
+                android:fontFamily="@font/open_sans"
+                android:textSize="10sp"/>
+        </LinearLayout>
+
     </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome"
+        android:id="@+id/dashboardGreetings"
+        android:textSize="20sp"
+        android:fontFamily="@font/open_sans_bold"/>
+
 
 </LinearLayout>
 
@@ -76,48 +96,33 @@
         android:fontFamily="@font/open_sans_bold"
         android:text="@string/services_available"
         android:textStyle="bold" />
-
+<!--services-->
     <GridLayout
         android:id="@+id/dashboardOptions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:rowCount="2"
+        android:rowCount="1"
         android:columnCount="2"
         android:layout_below="@id/wrapperProfile"
         android:layout_marginTop="16dp"
-        android:padding="16dp"
-        >
-
-        <!-- Group Loan Services -->
+        android:padding="16dp">
         <Button
-            android:id="@+id/btnLoanServices"
-            android:layout_width="160dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:backgroundTint="#0CC133"
+            android:id="@+id/btnBanking"
             android:fontFamily="@font/open_sans"
-            android:text="Loan Services" />
-
-        <!-- Community COntributions -->
+            android:backgroundTint="#0CC133"
+            android:layout_margin="7dp"
+            android:text="BANKING SERVICES"/>
         <Button
-            android:id="@+id/btnCommunityEngagement"
-            android:layout_width="160dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:backgroundTint="#0CC133"
-            android:layout_marginBottom="8dp"
+            android:id="@+id/btnEcommerce"
             android:fontFamily="@font/open_sans"
-            android:text="Community contributions" />
+            android:backgroundTint="#0CC133"
+            android:text="ECOMMERCE"
+            android:layout_margin="7dp"/>
 
-        <!-- Agricultural Products -->
-        <Button
-            android:id="@+id/btnAgricProducts"
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:backgroundTint="#0CC133"
-            android:fontFamily="@font/open_sans"
-            android:text="Agricultural Products" />
 
     </GridLayout>
 

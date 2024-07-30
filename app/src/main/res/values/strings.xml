@@ -24,4 +24,18 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!--array with kenyan towns -->
+    <string-array name="kenyan_towns">
+        <item>Nairobi</item>
+        <item>Nyeri</item>
+        <item>Karatina</item>
+        <item>Meru</item>
+        <item>Nyahururu</item>
+        <item>Kisumu</item>
+        <item>Mombasa</item>
+        <item>Thika</item>
+        <item>Chuka</item>
+        <item>Nanyuki</item>
+    </string-array>
+
 </resources>
