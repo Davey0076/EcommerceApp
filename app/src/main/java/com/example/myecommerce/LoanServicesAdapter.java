@@ -1,26 +1,35 @@
 package com.example.myecommerce;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import java.util.List;
 
 public class LoanServicesAdapter extends RecyclerView.Adapter<LoanServicesAdapter.LoanViewHolder> {
 
     private List<LoanDisplay> loanList;
     private Context context;
+    private FirebaseFirestore firestore;
+    private FirebaseAuth auth;
 
     public LoanServicesAdapter(List<LoanDisplay> loanList, Context context) {
         this.loanList = loanList;
         this.context = context;
+        this.firestore = FirebaseFirestore.getInstance();
+        this.auth = FirebaseAuth.getInstance();
     }
 
     @NonNull
@@ -33,19 +42,31 @@ public class LoanServicesAdapter extends RecyclerView.Adapter<LoanServicesAdapte
     @Override
     public void onBindViewHolder(@NonNull LoanViewHolder holder, int position) {
         LoanDisplay loan = loanList.get(position);
-        holder.tvLoanAmount.setText("Loan Amount: KSHS. " + loan.getAmount());
+        holder.tvLoanAmount.setText("Loan Amount: KSHS. " + loan.getTotalLoanBalance());
         holder.tvDueDate.setText("Due Date: " + loan.getDueDate());
-        holder.tvLoanStatus.setText("Status: " + loan.getStatus());
 
         holder.btnRepayLoan.setOnClickListener(v -> {
-            // Handle repayment
-            Toast.makeText(context, "Repay clicked for loan: " + loan.getAmount(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(context, RepayActivity.class);
+            intent.putExtra("loanId", loan.getLoanId());
+            context.startActivity(intent);
         });
 
-        holder.btnWithdrawLoan.setOnClickListener(v -> {
-            // Handle withdraw
-            Toast.makeText(context, "Withdraw clicked for loan: " + loan.getAmount(), Toast.LENGTH_SHORT).show();
-        });
+        // Fetch and update loan balance in real-time
+        String email = auth.getCurrentUser().getEmail();
+        firestore.collection("loans")
+                .whereEqualTo("email", email)
+                .whereEqualTo("loanId", loan.getLoanId())
+                .addSnapshotListener((QuerySnapshot snapshots, FirebaseFirestoreException e) -> {
+                    if (e != null) {
+                        return;
+                    }
+                    for (QueryDocumentSnapshot doc : snapshots) {
+                        if (doc.exists()) {
+                            double updatedBalance = doc.getDouble("totalLoanBalance");
+                            holder.tvLoanAmount.setText("Loan Amount: KSHS. " + updatedBalance);
+                        }
+                    }
+                });
     }
 
     @Override
@@ -54,17 +75,14 @@ public class LoanServicesAdapter extends RecyclerView.Adapter<LoanServicesAdapte
     }
 
     public static class LoanViewHolder extends RecyclerView.ViewHolder {
-
-        TextView tvLoanAmount, tvDueDate, tvLoanStatus;
-        Button btnRepayLoan, btnWithdrawLoan;
+        TextView tvLoanAmount, tvDueDate;
+        Button btnRepayLoan;
 
         public LoanViewHolder(@NonNull View itemView) {
             super(itemView);
             tvLoanAmount = itemView.findViewById(R.id.tvLoanAmount);
             tvDueDate = itemView.findViewById(R.id.tvDueDate);
-            tvLoanStatus = itemView.findViewById(R.id.tvLoanStatus);
             btnRepayLoan = itemView.findViewById(R.id.btnRepayLoan);
-            btnWithdrawLoan = itemView.findViewById(R.id.btnWithdrawLoan);
         }
     }
 }

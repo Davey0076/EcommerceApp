@@ -1,280 +1,95 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/checkoutLayout"
+<!-- res/layout/activity_loan_application.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoanApplication">
-    <!--header section -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/headerSection"
-        android:orientation="vertical"
-        android:gravity="center">
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="171dp"
-        android:layout_height="160dp"
-        android:src="@mipmap/lea_logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <TextView
-        android:id="@+id/txtLoanapplication"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/open_sans_bold"
-        android:padding="12dp"
-        android:text="LOAN APPLICATION"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-    </LinearLayout>
+        android:text="Loan Applications"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_margin="12dp"/>
 
-    <!--form entries -->
-    <LinearLayout
+
+    <EditText
+        android:id="@+id/etLoanAmount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/headerSection"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="12dp"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:hint="Enter Amount to apply for"
+        android:inputType="numberDecimal"
+        android:background="@drawable/edittext_drawable"
+        android:padding="10dp"
+        android:layout_marginBottom="20dp"/>
 
-        <EditText
-            android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:padding="10dp"
-            android:hint="@string/email_hint"
-            android:id="@+id/emailaddress"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edittext_drawable"/>
-        <EditText
-            android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:padding="10dp"
-            android:layout_marginBottom="10dp"
-            android:hint="@string/phone_hint"
-            android:id="@+id/phonenumber"
-            android:background="@drawable/edittext_drawable"/>
-        <EditText
-            android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:padding="10dp"
-            android:hint="@string/idnumber_hint"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/idnumber"
-            android:background="@drawable/edittext_drawable"/>
-        <EditText
-            android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:padding="10dp"
-            android:layout_marginBottom="10dp"
-            android:hint="@string/krapin_hint"
-            android:id="@+id/krapin"
-            android:background="@drawable/edittext_drawable"/>
-        <EditText
-            android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:padding="10dp"
-            android:hint="@string/accno_hint"
-            android:id="@+id/accno"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edittext_drawable"/>
+    <EditText
+        android:id="@+id/etKRAPin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="KRA PIN"
+        android:background="@drawable/edittext_drawable"
+        android:padding="10dp"
+        android:layout_marginBottom="20dp"/>
 
-        <EditText
-            android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:padding="10dp"
-            android:hint="@string/guarantorcontact_hint"
-            android:id="@+id/guarantorcontact"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edittext_drawable"/>
+    <EditText
+        android:id="@+id/etIDNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ID NUMBER"
+        android:inputType="number"
+        android:background="@drawable/edittext_drawable"
+        android:padding="10dp"
+        android:layout_marginBottom="20dp"/>
 
-        <EditText
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:lines="5"
-            android:padding="10dp"
-            android:layout_marginBottom="10dp"
-            android:hint="@string/purpose_hint"
-            android:id="@+id/purpose"
-            android:background="@drawable/edittext_drawable"/>
+    <EditText
+        android:id="@+id/etGuarantorName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Guarantor Name"
+        android:background="@drawable/edittext_drawable"
+        android:padding="10dp"
+        android:layout_marginBottom="20dp"/>
 
-        <EditText
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:lines="2"
-            android:padding="10dp"
-            android:layout_marginBottom="10dp"
-            android:hint="@string/loanAmount_hint"
-            android:inputType="number"
-            android:id="@+id/loanAmount"
-            android:background="@drawable/edittext_drawable"/>
+    <EditText
+        android:id="@+id/etGuarantorPhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Guarantor Phone Number"
+        android:inputType="phone"
+        android:background="@drawable/edittext_drawable"
+        android:padding="10dp"
+        android:layout_marginBottom="20dp"/>
 
-        <EditText
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:lines="2"
-            android:padding="10dp"
-            android:layout_marginBottom="10dp"
-            android:hint="Repay date"
-            android:inputType="date"
-            android:id="@+id/loanDue"
-            android:background="@drawable/edittext_drawable"/>
+    <TextView
+        android:id="@+id/tvDueDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Due Date: "
+        android:layout_marginTop="16dp"
+        android:textSize="20sp"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnSubmit"
-            android:layout_marginBottom="12dp"
-            android:text="SUBMIT"
-            android:layout_marginTop="12dp"
-            android:backgroundTint="#0CC133"
-            android:elevation="8dp"/>
+    <Button
+        android:id="@+id/btnPickDueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#0CC133"
+        android:text="Pick Due Date" />
 
+    <CheckBox
+        android:id="@+id/cbAcceptTerms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I accept to be given the loan at an interest of 9%" />
 
-
-
-
-    </LinearLayout>
-
-<!--    <androidx.constraintlayout.widget.Guideline-->
-<!--        android:id="@+id/guideline2"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal"-->
-<!--        app:layout_constraintGuide_begin="147dp" />-->
-    <!-- end of header section -->
-
-
-    <!--    <RelativeLayout-->
-    <!--        android:id="@+id/itemRelativeLayout"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="@+id/phoneNumber"-->
-    <!--        app:layout_constraintHorizontal_bias="0.0"-->
-    <!--        app:layout_constraintStart_toStartOf="@+id/phoneNumber"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/phoneNumber"-->
-    <!--        app:layout_constraintVertical_bias="0.060000002">-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/txtItem"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:fontFamily="@font/andika_new_basic"-->
-    <!--            android:text="Item Ordered:"-->
-    <!--            android:textStyle="bold" />-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/itemName"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginLeft="12dp"-->
-    <!--            android:layout_toRightOf="@+id/txtItem"-->
-    <!--            android:fontFamily="@font/andika_new_basic"-->
-    <!--            android:text="" />-->
-
-    <!--        &lt;!&ndash;        <TextView&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:id="@+id/txtQuantity"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:text="Quantity:"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:textStyle="bold"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_below="@+id/txtItem"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_marginTop="12dp"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            />&ndash;&gt;-->
-    <!--        &lt;!&ndash;        &ndash;&gt;-->
-    <!--        &lt;!&ndash;            &ndash;&gt;-->
-
-    <!--        &lt;!&ndash;        <EditText&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_width="60dp"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:inputType="number"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:id="@+id/quantity"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_toRightOf="@+id/txtQuantity"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_marginTop="12dp"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_marginLeft="12dp"/>&ndash;&gt;-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/txtUnitPrice"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_below="@+id/txtItem"-->
-    <!--            android:layout_marginTop="12dp"-->
-    <!--            android:fontFamily="@font/andika_new_basic"-->
-    <!--            android:text="Price:"-->
-    <!--            android:textStyle="bold" />-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/unitPrice"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_below="@+id/txtItem"-->
-    <!--            android:layout_marginLeft="12dp"-->
-    <!--            android:layout_marginTop="12dp"-->
-    <!--            android:layout_toRightOf="@+id/txtUnitPrice"-->
-    <!--            android:fontFamily="@font/andika_new_basic"-->
-    <!--            android:text="" />-->
-
-    <!--        &lt;!&ndash;        <TextView&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:id="@+id/txtTotalPrice"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:text="Total Price:"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_below="@+id/txtUnitPrice"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_marginTop="12dp"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:textStyle="bold"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            />&ndash;&gt;-->
-    <!--        &lt;!&ndash;        <TextView&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:id="@+id/totalPrice"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_toRightOf="@+id/txtTotalPrice"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:text=""&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_below="@+id/txtUnitPrice"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_marginLeft="12dp"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_marginTop="12dp"/>&ndash;&gt;-->
-
-
-    <!--    </RelativeLayout>-->
-
-    <!--    <Button-->
-    <!--        android:id="@+id/btnCheckout"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:fontFamily="@font/andika_new_basic"-->
-    <!--        android:text="CHECKOUT"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="@+id/guideline2"-->
-    <!--        app:layout_constraintVertical_bias="0.13999999" />-->
-
-
-    <!--    <androidx.constraintlayout.widget.Guideline-->
-    <!--        android:id="@+id/guideline2"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:orientation="horizontal"-->
-    <!--        app:layout_constraintGuide_begin="422dp" />-->
-
-    <!--    <androidx.constraintlayout.widget.Guideline-->
-    <!--        android:id="@+id/guideline"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:orientation="horizontal"-->
-    <!--        app:layout_constraintGuide_begin="144dp" />-->
-
-
-</RelativeLayout>
-</ScrollView>
+    <Button
+        android:id="@+id/btnSubmitLoan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit Loan Application"
+        android:backgroundTint="#0CC133"
+        android:layout_marginTop="16dp" />
+</LinearLayout>

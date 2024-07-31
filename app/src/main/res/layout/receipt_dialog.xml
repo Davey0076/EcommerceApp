@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center_horizontal"
     android:padding="20dp">
 
     <TextView
@@ -35,10 +36,24 @@
         android:layout_height="wrap_content"
         android:text="Due Date: " />
 
+
+    <TextView
+        android:id="@+id/receiptInterest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Interest charged: " />
+
+    <TextView
+        android:id="@+id/receiptTotalBalance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Due loan balance: " />
+
     <Button
         android:id="@+id/close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Close" />
+
 
 </LinearLayout>

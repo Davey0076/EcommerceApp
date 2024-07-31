@@ -1,133 +1,121 @@
+// LoanApplicationActivity.java
 package com.example.myecommerce;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 public class LoanApplication extends AppCompatActivity {
 
-    private EditText emailaddress, phonenumber, idnumber, krapin, accno, guarantorcontact, purpose, loanAmount, loanDue;
-    private Button btnSubmit;
-
+    private EditText etLoanAmount, etKRAPin, etIDNumber, etGuarantorName, etGuarantorPhoneNumber;
+    private TextView tvDueDate;
+    private CheckBox cbAcceptTerms;
+    private Button btnPickDueDate, btnSubmitLoan;
     private FirebaseFirestore db;
+    private FirebaseAuth auth;
+    private String selectedDueDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loan_applications);
 
-        // Initialization of views
-        emailaddress = findViewById(R.id.emailaddress);
-        phonenumber = findViewById(R.id.phonenumber);
-        idnumber = findViewById(R.id.idnumber);
-        krapin = findViewById(R.id.krapin);
-        accno = findViewById(R.id.accno);
-        guarantorcontact = findViewById(R.id.guarantorcontact);
-        purpose = findViewById(R.id.purpose);
-        loanAmount = findViewById(R.id.loanAmount);
-        loanDue = findViewById(R.id.loanDue);
-        btnSubmit = findViewById(R.id.btnSubmit);
+        // Initialize views
+        etLoanAmount = findViewById(R.id.etLoanAmount);
+        etKRAPin = findViewById(R.id.etKRAPin);
+        etIDNumber = findViewById(R.id.etIDNumber);
+        etGuarantorName = findViewById(R.id.etGuarantorName);
+        etGuarantorPhoneNumber = findViewById(R.id.etGuarantorPhoneNumber);
+        tvDueDate = findViewById(R.id.tvDueDate);
+        cbAcceptTerms = findViewById(R.id.cbAcceptTerms);
+        btnPickDueDate = findViewById(R.id.btnPickDueDate);
+        btnSubmitLoan = findViewById(R.id.btnSubmitLoan);
 
-        // Initialize Firestore
+        // Initialize Firebase Firestore and Auth
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
+        // Set up date picker
+        btnPickDueDate.setOnClickListener(v -> showDatePickerDialog());
+
+        // Set up submit button
+        btnSubmitLoan.setOnClickListener(v -> submitLoanApplication());
+    }
+
+    private void showDatePickerDialog() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onClick(View v) {
-                String email = emailaddress.getText().toString().trim();
-                String phone = phonenumber.getText().toString().trim();
-                String id = idnumber.getText().toString().trim();
-                String kra = krapin.getText().toString().trim();
-                String accountno = accno.getText().toString().trim();
-                String guarantor_contact = guarantorcontact.getText().toString().trim();
-                String loan_purpose = purpose.getText().toString().trim();
-                double amount = Double.parseDouble(loanAmount.getText().toString().trim());
-                String dueDate = loanDue.getText().toString().trim();
-
-                Map<String, Object> loanDetails = new HashMap<>();
-                loanDetails.put("email", email);
-                loanDetails.put("phone", phone);
-                loanDetails.put("id", id);
-                loanDetails.put("kra", kra);
-                loanDetails.put("accountno", accountno);
-                loanDetails.put("guarantor_contact", guarantor_contact);
-                loanDetails.put("loan_purpose", loan_purpose);
-                loanDetails.put("amount", amount);
-                loanDetails.put("dueDate", dueDate);
-
-                db.collection("loans").add(loanDetails)
-                        .addOnSuccessListener(documentReference -> {
-                            showSubmissionSnackbar(v, documentReference.getId());
-                        })
-                        .addOnFailureListener(e -> {
-                            Snackbar.make(v, "Failed to submit loan details.", Snackbar.LENGTH_LONG).show();
-                        });
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                selectedDueDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+                tvDueDate.setText("Due Date: " + selectedDueDate);
             }
-        });
+        }, year, month, day);
+
+        datePickerDialog.show();
     }
 
-    private void showSubmissionSnackbar(View view, String documentId) {
-        Snackbar snackbar = Snackbar.make(view, "Submitted successfully. View Receipt?", Snackbar.LENGTH_INDEFINITE)
-                .setAction("Yes", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showReceiptDialog(documentId);
-                    }
-                });
-        snackbar.show();
-    }
+    private void submitLoanApplication() {
+        String loanAmountStr = etLoanAmount.getText().toString().trim();
+        String kraPin = etKRAPin.getText().toString().trim();
+        String idNumber = etIDNumber.getText().toString().trim();
+        String guarantorName = etGuarantorName.getText().toString().trim();
+        String guarantorPhoneNumber = etGuarantorPhoneNumber.getText().toString().trim();
 
-    private void showReceiptDialog(String documentId) {
-        db.collection("loans").document(documentId).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        String email = documentSnapshot.getString("email");
-                        String phone = documentSnapshot.getString("phone");
-                        String accountno = documentSnapshot.getString("accountno");
-                        double amount = documentSnapshot.getDouble("amount");
-                        String dueDate = documentSnapshot.getString("dueDate");
+        if (loanAmountStr.isEmpty() || kraPin.isEmpty() || idNumber.isEmpty() ||
+                guarantorName.isEmpty() || guarantorPhoneNumber.isEmpty() || selectedDueDate == null ||
+                !cbAcceptTerms.isChecked()) {
+            Toast.makeText(this, "Please fill all fields and accept terms", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        LayoutInflater inflater = this.getLayoutInflater();
-                        View dialogView = inflater.inflate(R.layout.receipt_dialog, null);
-                        builder.setView(dialogView);
+        double loanAmount = Double.parseDouble(loanAmountStr);
+        double interestRate = 0.09;
+        double totalLoanBalance = loanAmount + (loanAmount * interestRate);
 
-                        AlertDialog dialog = builder.create();
+        // Get current user email
+        String userEmail = auth.getCurrentUser().getEmail();
+        String loanId = db.collection("loans").document().getId();  // Generate unique ID
 
-                        TextView receiptEmail = dialogView.findViewById(R.id.receiptEmailaddress);
-                        TextView receiptPhone = dialogView.findViewById(R.id.receiptNumber);
-                        TextView receiptAccountNo = dialogView.findViewById(R.id.receiptAccno);
-                        TextView receiptAmount = dialogView.findViewById(R.id.receiptAmount);
-                        //this is the line that has a null
-                        TextView receiptDueDate = dialogView.findViewById(R.id.receiptDueDate);
+        Map<String, Object> loanData = new HashMap<>();
+        loanData.put("loanId", loanId);
+        loanData.put("email", userEmail);
+        loanData.put("amount", loanAmount);
+        loanData.put("kraPin", kraPin);
+        loanData.put("idNumber", idNumber);
+        loanData.put("guarantorName", guarantorName);
+        loanData.put("guarantorPhoneNumber", guarantorPhoneNumber);
+        loanData.put("dueDate", selectedDueDate);
+        loanData.put("totalLoanBalance", totalLoanBalance);
+        loanData.put("status", "Pending");
+        loanData.put("applicationDate", System.currentTimeMillis());
 
-                        receiptEmail.setText("Email: " + email);
-                        receiptPhone.setText("Phone: " + phone);
-                        receiptAccountNo.setText("Account No: " + accountno);
-                        receiptAmount.setText("Amount: Kshs. " + amount);
-                        receiptDueDate.setText("Repay Date: " + dueDate);
-
-                        dialogView.findViewById(R.id.close).setOnClickListener(v -> dialog.dismiss());
-
-                        dialog.show();
-                    }
+        // Save to Firestore
+        db.collection("loans").document(loanId).set(loanData)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Loan application submitted. Wait for admin approval in an hour.", Toast.LENGTH_SHORT).show();
+                    finish();  // Close activity
                 })
-                .addOnFailureListener(e -> {
-                    Log.e("LoanApplication", "Error fetching loan receipt", e);
-                });
+                .addOnFailureListener(e -> Toast.makeText(this, "Failed to submit loan application.", Toast.LENGTH_SHORT).show());
     }
 }

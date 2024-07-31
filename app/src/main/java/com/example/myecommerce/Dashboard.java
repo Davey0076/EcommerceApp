@@ -9,8 +9,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,9 +28,9 @@ public class Dashboard extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    private TextView dashboardGreetings;
+    private TextView dashboardGreetings, strArticles;
     private ImageButton btnProfile, btnLogout;
-    private Button btnBanking, btnEcommerce;
+    private ImageView btnBanking, btnEcommerce, btnHowToUse;
 
     // RecyclerView and Adapter for articles
     private RecyclerView recyclerViewArticles;
@@ -38,7 +38,7 @@ public class Dashboard extends AppCompatActivity {
     private ArrayList<Article> articleList;
     private DatabaseReference databaseArticles;
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,19 +49,24 @@ public class Dashboard extends AppCompatActivity {
         btnLogout = findViewById(R.id.btnLogout);
         btnBanking = findViewById(R.id.btnBanking);
         btnEcommerce = findViewById(R.id.btnEcommerce);
+        btnHowToUse = findViewById(R.id.btnHowToUse);
+        strArticles = findViewById(R.id.strArticles);
+        recyclerViewArticles = findViewById(R.id.recyclerViewArticles);
+
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         // Setup RecyclerView for articles
-        recyclerViewArticles = findViewById(R.id.recyclerViewArticles);
         recyclerViewArticles.setLayoutManager(new LinearLayoutManager(this));
-
         articleList = new ArrayList<>();
         articleAdapter = new ArticleAdapter(this, articleList);
         recyclerViewArticles.setAdapter(articleAdapter);
 
         databaseArticles = FirebaseDatabase.getInstance().getReference("articles");
+
+        // Initially fetch articles but keep the RecyclerView hidden
         fetchArticles();
+        recyclerViewArticles.setVisibility(View.GONE);
 
         // Display user name on dashboard
         loadUserName();
@@ -95,6 +100,27 @@ public class Dashboard extends AppCompatActivity {
             public void onClick(View v) {
                 Intent ecommerceServices = new Intent(Dashboard.this, ecommerceServices.class);
                 startActivity(ecommerceServices);
+            }
+        });
+
+        btnHowToUse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Add your How to Use action here
+                Toast.makeText(Dashboard.this, "How to Use button clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        strArticles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (recyclerViewArticles.getVisibility() == View.GONE) {
+                    strArticles.setText("Hide articles");
+                    recyclerViewArticles.setVisibility(View.VISIBLE);
+                } else {
+                    strArticles.setText("Show articles");
+                    recyclerViewArticles.setVisibility(View.GONE);
+                }
             }
         });
     }

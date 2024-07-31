@@ -1,8 +1,11 @@
 package com.example.myecommerce;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,14 +14,29 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
-    @SuppressLint("NonConstantResourceId")
+    private FirebaseAuth mAuth;
+    private ImageButton btnLogout;
+
+    @SuppressLint({"NonConstantResourceId", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_dashboard);
+
+        btnLogout = findViewById(R.id.btnLogout);
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutUser();
+            }
+        });
+
+
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
@@ -27,7 +45,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
             if (itemId == R.id.nav_users) {
                 selectedFragment = new UserListFragment();
             } else if (itemId == R.id.nav_loans) {
-                selectedFragment = new LoanRequestsFragment();
+                selectedFragment = new LoanApplicationsFragment();
             } else if (itemId == R.id.menu_add_article) {
                 selectedFragment = new AddArticleFragment();
             }
@@ -60,5 +78,12 @@ public class AdminDashboardActivity extends AppCompatActivity {
         // Handle other menu items if needed
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logoutUser() {
+        FirebaseAuth.getInstance().signOut();
+        Intent login = new Intent(AdminDashboardActivity.this, Login.class);
+        startActivity(login);
+        finish();
     }
 }
